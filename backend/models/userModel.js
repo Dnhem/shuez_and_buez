@@ -11,7 +11,7 @@ const {
 // User Model for registering and logging in
 class User {
   /** Register new user and return token. */
-  static async register({ username, password }) {
+  static async register({ username, email, password }) {
     // Prohibit duplicate usernames
     const duplicateCheck = await db.query(
       `SELECT username FROM users WHERE username = $1`,
@@ -20,13 +20,13 @@ class User {
     if (duplicateCheck.rows[0]) {
       throw new BadRequestError("Username already exists!");
     }
-    if (!username || !password) {
-      throw new ExpressError("Username/password required", 400);
+    if (!username || !password || !email) {
+      throw new ExpressError("Credentials required", 400);
     }
     const hashedPw = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
     const registration = await db.query(
-      `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING username, id`,
-      [ username, hashedPw ]
+      `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING username, email, id`,
+      [ username, email, hashedPw ]
     );
     const newUser = registration.rows[0];
     return newUser;

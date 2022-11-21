@@ -8,9 +8,9 @@ const Container = styled.div`
   gap: 50px;
 `;
 
-const Categories = () => {
+const Categories = ({ ref }) => {
   return (
-    <Container>
+    <Container ref={ref}>
       {ProductCategories.map(item => (
         <CategoryItem item={item} key={item.id} />
       ))}

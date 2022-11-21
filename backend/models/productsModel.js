@@ -26,7 +26,7 @@ class Product {
   /** Retrieve single product */
   static async getProduct(id) {
     const results = await db.query(
-      `SELECT id, name, type, price, image, description FROM products WHERE id = $1`,
+      `SELECT id, name, type, price, image, size, description FROM products WHERE id = $1`,
       [ id ]
     );
     if (!results) throw new ExpressError("Item not found.", 401);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ProductModel from "../components/ProductsContainer";
+import ProductModel from "../components/ProductModel";
 import styled from "styled-components";
 const SHUEZ_URL = "http://localhost:8800/products/shuez";
 

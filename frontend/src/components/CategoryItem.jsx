@@ -15,7 +15,7 @@ const Title = styled.h1`
   color: #e03131;
   margin-bottom: 20px;
 `;
-const Info = styled.p`
+const Info = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -34,14 +34,14 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: 600;
   &:hover {
-    background-color: black;
+    background-color: #000000c9;
     color: #fff;
   }
 `;
 
 const CategoryItem = ({ item }) => {
   return (
-    <Container>
+    <Container id="shop">
       <Image src={item.img} />
       <Info>
         <Title>{item.title}</Title>

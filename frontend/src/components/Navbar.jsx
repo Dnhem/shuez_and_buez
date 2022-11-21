@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Badge } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 
@@ -18,36 +18,29 @@ const Left = styled.div`
   align-items: center;
   flex: 1;
 `;
-const Logo = styled.h3`font-weight: bold;`;
 
-const Center = styled.div``;
-const SearchContainer = styled.div`
-  border: 0.5px solid lightgray;
-  display: flex;
-  align-items: center;
+const Logo = styled.h3`
+  font-weight: bold;
+  cursor: pointer;
 `;
-const Input = styled.input`
-  border: none;
-  padding: 10px 20px;
-  &:focus {
-    outline: none;
-  }
-`;
+
 const Right = styled.div`
   flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding: 5px;
 `;
 
 const StyledShoppingCart = styled(ShoppingCart)`
   cursor: pointer;
 `;
 
-const Navlink = styled.div`
+const Navlink = styled(Link)`
   font-size: 18px;
   margin-left: 25px;
-  cursor: pointer;
+  text-decoration: none;  
+  color: black;
 `;
 
 const HomeLink = styled(Link)`
@@ -56,6 +49,8 @@ const HomeLink = styled(Link)`
 `;
 
 const Navbar = () => {
+  const { quantity } = useSelector(store => store.cart);
+
   return (
     <Container>
       <Wrapper>
@@ -64,17 +59,11 @@ const Navbar = () => {
             <Logo>SHUEZ&BUEZ</Logo>
           </HomeLink>
         </Left>
-        <Center>
-          <SearchContainer>
-            <Input />
-            <SearchIcon style={{ fontSize: 25, color: "gray" }} />
-          </SearchContainer>
-        </Center>
         <Right>
-          <Navlink>Login</Navlink>
-          <Navlink>Register</Navlink>
-          <Navlink>
-            <Badge badgeContent={3} color="primary">
+          <Navlink to="/login">Login</Navlink>
+          <Navlink to="/register">Register</Navlink>
+          <Navlink to={quantity > 0 && "/checkout"}>
+            <Badge badgeContent={quantity} color="primary">
               <StyledShoppingCart />
             </Badge>
           </Navlink>

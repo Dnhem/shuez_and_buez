@@ -62,20 +62,25 @@ const Desc = styled.p`
   letter-spacing: 3px;
   line-height: 1.5;
 `;
-const Button = styled.button`
-  padding: 8px;
+const Button = styled.a`
+  padding: 8px 16px;
+  border: 1px solid black;
   font-size: 15px;
   text-transform: uppercase;
-  background-color: transparent;
   cursor: pointer;
+  &:visited {
+    color: black;
+  }
   &:hover {
-    background-color: black;
+    background-color: #000000c9;
     color: #fff;
   }
+  text-decoration: none;
 `;
 
 const Slider = () => {
   const [ slideIndex, setSlideIndex ] = useState(0);
+
   const handleClick = direction => {
     if (direction === "left") {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
@@ -100,7 +105,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <Button>Shop now</Button>
+              <Button href="#shop">Explore</Button>
             </InfoContainer>
           </Slide>
         ))}

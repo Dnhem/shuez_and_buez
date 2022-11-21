@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  flex: 1;
   padding: 20px;
   margin-top: ${props => (props.buez ? "200px" : "80px")};
   min-width: 350px;
   height: 300px;
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   position: relative;
