@@ -48,7 +48,7 @@ class User {
     throw new UnauthorizedError("Invalid username/password");
   }
 
-  /** Retrieve all users */
+  /** Admin Access - Retrieve all users */
   static async getAll() {
     let allUsers = await db.query(`SELECT id, username, is_admin FROM users`);
     let users = allUsers.rows;
@@ -66,7 +66,7 @@ class User {
     return user.rows[0];
   }
 
-  // TODO: DELETE USER
+  // TODO: Admin - Action DELETE USER
 
   /** Update/Edit user info */
   static async update(userId, data) {
