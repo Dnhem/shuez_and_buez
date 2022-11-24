@@ -10,7 +10,7 @@ const createToken = user => {
   };
   return jwt.sign(payload, SECRET_KEY);
 };
-// FRONT END SAVES TOKEN INTO LOCAL STORAGE, FRONT END USES  TOKEN FOR ALL FUTURE REQUESTS. LOGOUT ON FRONT END, FRONT END CLEARS LOCAL STORAGE. REAL WORLD APPS - JWT TOKENS EXPIRE (EX: 48 HOURS). OAUTH2 protocol widely used, uses two tokens - 1) Access Token - auth token shorter duration than refresh.  2) Refresh Token - 7 days.
+
 const verifyToken = (req, res, next) => {
   try {
     let authHeader = req.headers && req.headers.authorization;

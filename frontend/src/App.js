@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import Home from "./pages/Home";
 import Shuez from "./pages/Shuez";
 import Buez from "./pages/Buez";
@@ -7,8 +8,18 @@ import Register from "./pages/Register";
 import Layout from "./components/Layout";
 import SingleProduct from "./pages/SingleProduct";
 import Cart from "./pages/Cart";
+import { calculateTotals } from "./redux/features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const { cartItems } = useSelector(state => state.cart);
+  const dispatch = useDispatch();
+  useEffect(
+    () => {
+      dispatch(calculateTotals());
+    },
+    [ cartItems ]
+  );
   return (
     <div>
       <Routes>

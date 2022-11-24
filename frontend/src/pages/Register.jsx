@@ -60,9 +60,17 @@ const Button = styled.button`
 `;
 
 const Span = styled.span`
-  text-align: center;
   font-size: 14px;
   margin-top: 20px;
+  line-height: 1.5;
+`;
+
+const Underline = styled.span`
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover {
+    color: #1e96be;
+  }
 `;
 
 const Register = () => {
@@ -85,7 +93,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const res = await axios.post(`${BASE_URL}/auth/register`, formData);
-      // TODO: redirect to shopping cart page
+      // TODO: redirect back to order page
       return res.token;
     } catch (err) {
       console.log(err);
@@ -119,6 +127,11 @@ const Register = () => {
             onChange={handleChange}
           />
           <Button>Register</Button>
+          <Span>
+            By continuing, I agree to Shuez&Buez’s
+            <Underline> Privacy Policy</Underline> and
+            <Underline> Terms of Use.</Underline>
+          </Span>
           <Span>
             Already have an account? <Link to="/login">Log in</Link>
           </Span>

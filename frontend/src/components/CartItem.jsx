@@ -1,5 +1,5 @@
 import styled from "styled-components";
-// import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -34,14 +34,21 @@ const Price = styled.span`
   right: 15px;
 `;
 
-// const DeleteIcon = styled.div`
-//   position: absolute;
-//   right: 25px;
-//   top: 100px;
-//   cursor: pointer;
-// `;
+const DeleteIcon = styled.div`
+  position: absolute;
+  right: 25px;
+  top: 100px;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(150%);
+  }
+`;
 
-const CartItem = ({ title, img, price, size, qty, itemId }) => {
+const CartItem = ({ id, title, img, price, size, qty, remove }) => {
+  const handleClick = () => {
+    remove(id);
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -52,9 +59,9 @@ const CartItem = ({ title, img, price, size, qty, itemId }) => {
           <Span>Quantity: {qty}</Span>
         </ProductDetails>
         <Price>${price}</Price>
-        {/* <DeleteIcon>
+        <DeleteIcon onClick={handleClick}>
           <DeleteForeverOutlinedIcon color="warning" />
-        </DeleteIcon> */}
+        </DeleteIcon>
       </Wrapper>
     </Container>
   );
