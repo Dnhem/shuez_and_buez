@@ -1,6 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import img from "../assets/shuez_bg.jpg";
+import { useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+
+const BASE_URL = "http://localhost:8800";
 
 const Container = styled.div`
   width: 100vw;
@@ -63,13 +68,55 @@ const Span = styled.span`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
+  const initialState = {
+    username: "",
+    password: "",
+  };
+  const [ formData, setFormData ] = useState(initialState);
+  const [ cookies, setCookie ] = useCookies([ "access_token" ]);
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(data => ({
+      ...data,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/login`, formData);
+      setCookie("access_token", res.data.access_token, { path: "/" });
+      setFormData(initialState);
+      navigate("/checkout");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>Login</Title>
-        <Form>
-          <Input required type="text" placeholder="username" />
-          <Input required type="password" placeholder="password" />
+        <Form onSubmit={handleSubmit}>
+          <Input
+            onChange={handleChange}
+            name="username"
+            required
+            type="text"
+            placeholder="username"
+            value={formData.username}
+          />
+          <Input
+            onChange={handleChange}
+            name="password"
+            required
+            type="password"
+            placeholder="password"
+            value={formData.password}
+          />
           <Button>Login</Button>
           <Span>
             Don't have an account? <Link to="/register">Register</Link>

@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import img from "../assets/buez_bg.jpg";
+import { useCookies } from "react-cookie";
+
 const BASE_URL = "http://localhost:8800";
 
 const Container = styled.div`
@@ -79,7 +81,9 @@ const Register = () => {
     email: "",
     password: "",
   };
+  const navigate = useNavigate();
   const [ formData, setFormData ] = useState(initialVal);
+  const [ cookies, setCookie ] = useCookies([ "access_token" ]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -93,7 +97,9 @@ const Register = () => {
     e.preventDefault();
     try {
       const res = await axios.post(`${BASE_URL}/auth/register`, formData);
-      // TODO: redirect back to order page
+      setCookie("access_token", res.data.access_token, { path: "/" });
+      setFormData(initialVal);
+      navigate("/checkout");
       return res.token;
     } catch (err) {
       console.log(err);
@@ -111,6 +117,7 @@ const Register = () => {
             name="username"
             placeholder="username"
             onChange={handleChange}
+            value={formData.username}
           />
           <Input
             required
@@ -118,6 +125,7 @@ const Register = () => {
             name="email"
             placeholder="email"
             onChange={handleChange}
+            value={formData.email}
           />
           <Input
             required
@@ -125,6 +133,7 @@ const Register = () => {
             name="password"
             placeholder="password"
             onChange={handleChange}
+            value={formData.password}
           />
           <Button>Register</Button>
           <Span>

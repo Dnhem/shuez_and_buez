@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -15,7 +19,8 @@ const Price = styled.h1`
 `;
 const Span = styled.span`
   text-transform: uppercase;
-  color: #6b5858b8;
+  color: ${props => (props.card ? "red" : "#6b5858b8")};
+  font-size: ${props => (props.card ? "16px" : "20px")};
   display: inline-block;
   margin-top: 20px;
 `;
@@ -41,6 +46,26 @@ const Text = styled.span`
 `;
 
 const Checkout = ({ total }) => {
+  const { cartItems } = useSelector(store => store.cart);
+  const [ cookies, setCookies ] = useCookies([ "access_token" ]);
+  const navigate = useNavigate();
+  const loggedIn = cookies.access_token;
+
+  const login = () => {
+    return navigate("/login");
+  };
+
+  const checkout = async () => {
+    await axios
+      .post("http://localhost:8800/checkout", { items: cartItems })
+      .then(response => {
+        if (response.data.url) {
+          window.location.assign(response.data.url);
+          //TODO: submit customer order to order history in DB
+        }
+      });
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -57,7 +82,8 @@ const Checkout = ({ total }) => {
         <Price>
           Estimated Total <Text>${total.toFixed(2)}</Text>
         </Price>
-        <Button>Checkout</Button>
+        <Button onClick={loggedIn ? checkout : login}>Checkout</Button>
+        <Span card>* Use Card Number 4242 4242 4242 4242</Span>
       </Wrapper>
     </Container>
   );

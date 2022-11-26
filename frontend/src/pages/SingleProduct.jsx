@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import WestIcon from "@mui/icons-material/West";
+import { Link } from "react-router-dom";
+import { mobile } from "../responsive";
 const PRODUCT_URL = "http://localhost:8800/products/id/";
 
 const ProductCard = styled.div`
@@ -12,33 +15,50 @@ const ProductCard = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  ${mobile({
+    marginTop: "300px",
+    padding: "0",
+    flexDirection: "column",
+    height: "200px",
+    justifyContent: "center",
+  })};
 `;
 
-const Title = styled.h1`font-weight: 400;`;
+const Title = styled.h1`
+  font-weight: 400;
+  ${mobile({ fontSize: "20px" })};
+`;
 
 const SubTitle = styled.h3`
   margin: 20px 0;
   font-weight: 500;
+  ${mobile({ margin: "5px 0px" })};
 `;
 
 const Description = styled.p`
   font-weight: 300;
   margin: 20px 0px;
+  ${mobile({ margin: "0", fontSize: "12px" })};
 `;
 
 const Price = styled.span`
   display: inline-block;
   margin: 20px 0px;
   font-weight: 500;
+  ${mobile({ marginTop: "5px" })};
 `;
 
 const Image = styled.img`
   height: 80vh;
   width: 100%;
   object-fit: cover;
+  ${mobile({ height: "200px", marginTop: "-100px" })};
 `;
 
-const ImgContainer = styled.div`flex: 1;`;
+const ImgContainer = styled.div`
+  flex: 1;
+  ${mobile({ padding: "0" })};
+`;
 
 const ProductDetails = styled.div`
   flex: 1;
@@ -63,6 +83,22 @@ const Button = styled.button`
   }
 `;
 
+const BackButton = styled.button`
+  background: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #000000c9;
+    color: #fff;
+  }
+  ${mobile({
+    width: "50px",
+    margin: "0",
+    position: "absolute",
+    top: "70px",
+    left: "20px",
+  })};
+`;
+
 const SingleProduct = () => {
   const { id } = useParams();
   const [ product, setProduct ] = useState(null);
@@ -82,10 +118,8 @@ const SingleProduct = () => {
     },
     [ id ]
   );
-
   const handleClick = e => {
     e.preventDefault();
-    console.log(size);
     dispatch(
       addItem({
         ...product,
@@ -99,6 +133,11 @@ const SingleProduct = () => {
     <div>
       {product ? (
         <ProductCard>
+          <Link to={product.type === "shuez" ? "/shuez" : "/buez"}>
+            <BackButton>
+              <WestIcon />
+            </BackButton>
+          </Link>
           <ImgContainer>
             <Image
               src={

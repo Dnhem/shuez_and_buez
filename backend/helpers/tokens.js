@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
-const { UnauthorizedError, ExpressError } = require("../expressError");
+const { UnauthorizedError, AccessForbiddenError } = require("../expressError");
 
 const createToken = user => {
   const payload = {
@@ -20,7 +20,7 @@ const verifyToken = (req, res, next) => {
     }
     return next();
   } catch (err) {
-    return next();
+    return next(err);
   }
 };
 
@@ -53,10 +53,26 @@ const ensureCorrectUser = (req, res, next) => {
   }
 };
 
+const authorization = (req, res, next) => {
+  const token = req.cookies.access_token;
+  const err = new AccessForbiddenError();
+  if (!token) return next(err);
+  try {
+    const data = jwt.verify(token, SECRET_KEY);
+    console.log(data);
+    req.userId = data.id;
+    req.userName = data.user;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
   createToken,
   verifyToken,
   ensureLoggedIn,
   ensureAdmin,
   ensureCorrectUser,
+  authorization,
 };

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
   padding: 20px;
@@ -11,6 +12,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  ${mobile({ paddingLeft: "0" })};
 `;
 
 const ProductCard = styled.div`

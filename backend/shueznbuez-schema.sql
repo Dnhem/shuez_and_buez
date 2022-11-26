@@ -7,7 +7,8 @@ CREATE TABLE users (
 );
 
 CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
+  refId SERIAL PRIMARY KEY,
+  id TEXT,
   name TEXT NOT NULL,
   type TEXT NOT NULL,
   price TEXT NOT NULL,
