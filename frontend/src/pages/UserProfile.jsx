@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -17,17 +18,19 @@ const Title = styled.h1`
 const Notification = styled.div``;
 
 const UserProfile = () => {
-  const { id } = useParams();
+  const navigate = useNavigate();
   const [ cookies, setCookies ] = useCookies([ "access_token" ]);
 
   let currentUser;
   if (cookies.access_token) {
     currentUser = jwt_decode(cookies.access_token);
+  } else {
+    navigate("/");
   }
 
   return (
     <Container>
-      <Title>Welcome {currentUser.user}!</Title>
+      <Title>Welcome {currentUser && currentUser.user}!</Title>
       <Notification>
         <p>Order history coming soon...</p>
         <p>Updating user info coming soon...</p>
