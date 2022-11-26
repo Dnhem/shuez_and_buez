@@ -11,6 +11,7 @@ import Success from "./pages/Success";
 import Cart from "./pages/Cart";
 import { calculateTotals } from "./redux/features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const { cartItems } = useSelector(state => state.cart);
@@ -32,6 +33,7 @@ function App() {
           <Route path="/shuez/:id" element={<SingleProduct />} />
           <Route path="/buez" element={<Buez />} />
           <Route path="/buez/:id" element={<SingleProduct />} />
+          <Route path="/user/:id" element={<UserProfile />} />
           <Route path="/checkout" element={<Cart />} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cart />} />

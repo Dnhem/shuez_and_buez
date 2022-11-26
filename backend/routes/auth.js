@@ -46,9 +46,4 @@ router.get("/logout", authorization, async (req, res) => {
     .json({ message: "Successfully logged out." });
 });
 
-// TODO: Checkout page and migrate to appropriate file
-router.get("/protected", authorization, async (req, res) => {
-  return res.json({ user: { id: req.userId, username: req.userName } });
-});
-
 module.exports = router;
