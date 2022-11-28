@@ -17,7 +17,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Shuez&Buez (Shoes and Booze) is an ecommerce platform providing a clean and minimalistic UI for an pleasant shopping experience. 
+Shuez&Buez (Shoes and Booze) is an ecommerce platform providing a clean and minimalistic UI for a pleasant shopping experience. 
 The shop provides designer footwear to pair with fine craft beer. Customers can create user accounts to view their order history 
 and seamlessly process their payments with Stripe. 
 <br/>
