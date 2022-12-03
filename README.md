@@ -71,23 +71,26 @@ allowing capabilities of a real world ecommerce shop.
    npm i
    ```
 * Start the app
+   cd in frontend and run: 
    ```sh
-   cd frontend 
    npm start
-   
-   cd backend 
+   ```
+   cd in backend and run:
+   ```sh
    node server.js
    ```
 
 ### Test files
 
 * Test
+  RUN BACKEND TESTS - cd in backend and run:
    ```sh
-   run backend tests: 
-   cd backend
    jest
    ```
-
+  RUN FRONTEND TESTS - cd in frontend and run:
+   ```sh
+   UNDER CONSTRUCTION 🏗
+   ```
    
 ## Contact
 
