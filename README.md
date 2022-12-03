@@ -76,14 +76,16 @@ allowing capabilities of a real world ecommerce shop.
    npm start
    
    cd backend 
-   node app.js
+   node server.js
    ```
 
 ### Test files
 
 * Test
    ```sh
-   under construction 🏗
+   run backend tests: 
+   cd backend
+   jest
    ```
 
    
