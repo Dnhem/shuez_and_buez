@@ -70,19 +70,17 @@ allowing capabilities of a real world ecommerce shop.
    ```sh
    npm i
    ```
-* Start the app
-   cd in frontend and run: 
+* Start the app on frontend - cd in frontend and run: 
    ```sh
    npm start
    ```
-   cd in backend and run:
+* Start the app on backend - cd in backend and run: 
    ```sh
    node server.js
    ```
 
 ### Test files
 
-* Test
   RUN BACKEND TESTS - cd in backend and run:
    ```sh
    jest
