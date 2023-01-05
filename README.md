@@ -11,7 +11,7 @@
   <p align="center">
     Designer Footwear and Craft Beer.
     <br />
-    <a href="#"><strong>Live Demo</strong></a>
+    <a href="https://shuez-and-buez.netlify.app/"><strong>Live Demo</strong></a>
 </div>
 
 
