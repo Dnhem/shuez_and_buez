@@ -21,8 +21,9 @@ root.render(
     <CookiesProvider>
       <Provider store={store}>
         <BrowserRouter>
-          <PostHogProvider client={posthog}></PostHogProvider>
-          <App />
+          <PostHogProvider client={posthog}>
+            <App />
+          </PostHogProvider>
         </BrowserRouter>
       </Provider>
     </CookiesProvider>
