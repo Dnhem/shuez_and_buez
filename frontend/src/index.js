@@ -7,6 +7,13 @@ import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import { CookiesProvider } from "react-cookie";
 import { PostHogProvider } from "posthog-js/react";
+import posthog from "posthog-js";
+
+posthog.init(process.env.REACT_APP_POSTHOG_KEY, {
+  api_host: process.env.REACT_APP_POSTHOG_HOST,
+  capture_pageview: true,
+  capture_pageleave: true,
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,17 +21,8 @@ root.render(
     <CookiesProvider>
       <Provider store={store}>
         <BrowserRouter>
-          <PostHogProvider
-            apiKey={process.env.REACT_APP_POSTHOG_KEY}
-            options={{
-              api_host: process.env.REACT_APP_POSTHOG_HOST,
-              defaults: '2025-05-24',
-              capture_exceptions: true,
-              debug: process.env.NODE_ENV === "development",
-            }}
-          >
-            <App />
-          </PostHogProvider>
+          <PostHogProvider client={posthog}></PostHogProvider>
+          <App />
         </BrowserRouter>
       </Provider>
     </CookiesProvider>
