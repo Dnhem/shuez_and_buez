@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
   cartItems: [],
@@ -12,28 +11,26 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      let sameItem = action.payload;
-      let currentItem = state.cartItems.find(item => item.id === sameItem.id);
-      if (currentItem && currentItem.size === sameItem.size) {
-        currentItem.quantity += 1;
+      const newItem = action.payload;
+      // One cart line per product + size; id stays the Stripe price id
+      const cartId = `${newItem.id}-${newItem.size}`;
+      const currentItem = state.cartItems.find(item => item.cartId === cartId);
+      if (currentItem) {
+        currentItem.quantity += newItem.quantity;
         return;
-      } else if (currentItem && currentItem.size !== sameItem.size) {
-        sameItem.id = nanoid();
       }
-      state.cartItems.push(action.payload);
-      state.quantity += 1;
-      state.total += +(action.payload.price * action.payload.quantity);
+      state.cartItems.push({ ...newItem, cartId });
     },
     removeItem: (state, action) => {
-      const itemId = action.payload;
-      state.cartItems = state.cartItems.filter(item => item.id !== itemId);
+      const cartId = action.payload;
+      state.cartItems = state.cartItems.filter(item => item.cartId !== cartId);
     },
     increment: (state, { payload }) => {
-      const item = state.cartItems.find(item => item.id === payload.id);
+      const item = state.cartItems.find(item => item.cartId === payload.cartId);
       item.quantity = item.quantity + 1;
     },
     decrement: (state, { payload }) => {
-      const item = state.cartItems.find(item => item.id === payload.id);
+      const item = state.cartItems.find(item => item.cartId === payload.cartId);
       item.quantity = item.quantity - 1;
     },
     calculateTotals: state => {

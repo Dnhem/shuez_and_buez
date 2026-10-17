@@ -1,6 +1,7 @@
 "use strict";
 
-const { Client } = require("pg");
+const { Pool } = require("pg");
+const { DB_URL } = require("./config");
 
 let DB_URI;
 
@@ -8,13 +9,17 @@ let DB_URI;
 if (process.env.NODE_ENV === "test") {
   DB_URI = "postgresql:///shueznbuez_test";
 } else {
-  DB_URI = "postgresql:///shueznbuez";
+  DB_URI = DB_URL;
 }
 
-let db = new Client({
+// A pool opens a fresh connection when the database drops an idle one
+// (Neon does this whenever it scales to zero)
+const db = new Pool({
   connectionString: DB_URI,
 });
 
-db.connect();
+db.on("error", err => {
+  console.error("Idle database connection error:", err.message);
+});
 
 module.exports = db;

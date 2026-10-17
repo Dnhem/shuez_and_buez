@@ -3,7 +3,6 @@ import CartItem from "../components/CartItem";
 import Checkout from "../components/Checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem } from "../redux/features/cart/cartSlice";
-import { nanoid } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 
 const Container = styled.div``;
@@ -60,8 +59,8 @@ const Cart = () => {
   const { cartItems, quantity, total } = useSelector(store => store.cart);
   const dispatch = useDispatch();
 
-  const remove = itemId => {
-    dispatch(removeItem(itemId));
+  const remove = cartId => {
+    dispatch(removeItem(cartId));
   };
 
   if (quantity === 0)
@@ -81,12 +80,12 @@ const Cart = () => {
       </Title>
       <Wrapper>
         <LeftSection>
-          {cartItems.map(({ id, image, name, price, size, type, quantity }) => (
-            <CartItemContainer key={nanoid()}>
+          {cartItems.map(({ id, cartId, image, name, price, size, type, quantity }) => (
+            <CartItemContainer key={cartId} data-testid={`cart-item-${cartId}`}>
               <CartItem
                 id={id}
+                cartId={cartId}
                 remove={remove}
-                key={nanoid()}
                 img={type === "shuez" ? image : require(`../assets${image}`)}
                 title={name}
                 price={price}

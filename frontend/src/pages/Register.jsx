@@ -4,8 +4,9 @@ import { useState } from "react";
 import axios from "axios";
 import img from "../assets/buez_bg.jpg";
 import { useCookies } from "react-cookie";
+import { API_URL } from "../config";
 
-const BASE_URL = "http://localhost:8800";
+const BASE_URL = API_URL;
 
 const Container = styled.div`
   width: 100vw;
@@ -83,7 +84,7 @@ const Register = () => {
   };
   const navigate = useNavigate();
   const [ formData, setFormData ] = useState(initialVal);
-  const [ cookies, setCookie ] = useCookies([ "access_token" ]);
+  const [ , setCookie ] = useCookies([ "access_token" ]);
 
   const handleChange = e => {
     const { name, value } = e.target;

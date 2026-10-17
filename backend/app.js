@@ -7,14 +7,19 @@ const productRoutes = require("./routes/products");
 const userRoutes = require("./routes/user");
 const stripeRoute = require("./routes/stripe");
 const { verifyToken } = require("./helpers/tokens");
+const { PORT, CLIENT_URL } = require("./config");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: CLIENT_URL }));
 app.use(cookieParser());
 app.use(express.static("public"));
+
+// Health check for the host; does not touch the database
+app.get("/health", (req, res) => res.json({ status: "ok" }));
+// On Checkly — use URL monitor for simplified Check for uptime
 
 // App Routes
 app.use("/auth", authRoutes);
@@ -24,12 +29,12 @@ app.use(verifyToken);
 app.use("/users", userRoutes);
 
 /** Handle 404 errors **/
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   return next(new NotFoundError());
 });
 
 /** Generic error handler **/
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (process.env.NODE_ENV !== "test") console.error(err.stack);
   const status = err.status || 500;
   const message = err.message;
@@ -39,8 +44,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(8800, () => {
-  console.log("Server started on port 8800");
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
 
 module.exports = app;

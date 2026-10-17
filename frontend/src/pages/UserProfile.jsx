@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
 import styled from "styled-components";
@@ -19,7 +18,7 @@ const Notification = styled.div``;
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const [ cookies, setCookies ] = useCookies([ "access_token" ]);
+  const [ cookies ] = useCookies([ "access_token" ]);
 
   let currentUser;
   if (cookies.access_token) {

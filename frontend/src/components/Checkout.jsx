@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { API_URL } from "../config";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -47,7 +48,7 @@ const Text = styled.span`
 
 const Checkout = ({ total }) => {
   const { cartItems } = useSelector(store => store.cart);
-  const [ cookies, setCookies ] = useCookies([ "access_token" ]);
+  const [ cookies ] = useCookies([ "access_token" ]);
   const navigate = useNavigate();
   const loggedIn = cookies.access_token;
 
@@ -56,21 +57,24 @@ const Checkout = ({ total }) => {
   };
 
   const checkout = async () => {
-    await axios
-      .post("http://localhost:8800/checkout", { items: cartItems })
-      .then(response => {
-        if (response.data.url) {
-          window.location.assign(response.data.url);
-          //TODO: submit customer order to order history in DB
-        }
+    try {
+      const response = await axios.post(`${API_URL}/checkout`, {
+        items: cartItems,
       });
+      if (response.data.url) {
+        window.location.assign(response.data.url);
+        //TODO: submit customer order to order history in DB
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <Container>
       <Wrapper>
         <Span>
-          Subtotal <Text>${total.toFixed(2)}</Text>
+          Subtotal <Text data-testid="subtotal">${total.toFixed(2)}</Text>
         </Span>
         <Span>
           Shipping Costs <Text>$0.00</Text>

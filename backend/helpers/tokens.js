@@ -16,7 +16,7 @@ const verifyToken = (req, res, next) => {
     let authHeader = req.headers && req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
-      res.locals.user = jwt.verify(token, SECRET_KEY);
+      res.locals.user = jwt.verify(token, SECRET_KEY, { algorithms: ["HS256"] });
     }
     return next();
   } catch (err) {
@@ -45,8 +45,8 @@ const ensureAdmin = (req, res, next) => {
 
 const ensureCorrectUser = (req, res, next) => {
   const currentUser = res.locals.user;
-  if (currentUser.id === +req.params.id || currentUser.isAdmin) {
-    return next(err);
+  if (currentUser && (currentUser.id === +req.params.id || currentUser.isAdmin)) {
+    return next();
   } else {
     const err = new UnauthorizedError("You are not authorized.");
     return next(err);
@@ -58,7 +58,7 @@ const authorization = (req, res, next) => {
   const err = new AccessForbiddenError();
   if (!token) return next(err);
   try {
-    const data = jwt.verify(token, SECRET_KEY);
+    const data = jwt.verify(token, SECRET_KEY, { algorithms: ["HS256"] });
     console.log(data);
     req.userId = data.id;
     req.userName = data.user;

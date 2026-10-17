@@ -60,7 +60,7 @@ const HomeLink = styled(Link)`
 const Navbar = () => {
   const { quantity } = useSelector(store => store.cart);
   const dispatch = useDispatch();
-  const [ cookies, setCookies, removeCookie ] = useCookies([ "access_token" ]);
+  const [ cookies, , removeCookie ] = useCookies([ "access_token" ]);
 
   let currentUser;
   if (cookies.access_token) {
@@ -86,7 +86,7 @@ const Navbar = () => {
           <Right>
             <Navlink to="/login">Login</Navlink>
             <Navlink to="/register">Register</Navlink>
-            <Navlink to={quantity > 0 && "/checkout"}>
+            <Navlink data-testid="cart-link" to={quantity > 0 && "/checkout"}>
               <Badge badgeContent={quantity} color="primary">
                 <StyledShoppingCart />
               </Badge>
@@ -115,7 +115,7 @@ const Navbar = () => {
             <Navlink to={`/user/${currentUser.id}`}>
               <AccountCircleIcon />
             </Navlink>
-            <Navlink to={quantity > 0 && "/checkout"}>
+            <Navlink data-testid="cart-link" to={quantity > 0 && "/checkout"}>
               <Badge badgeContent={quantity} color="primary">
                 <StyledShoppingCart />
               </Badge>

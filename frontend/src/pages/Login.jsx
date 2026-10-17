@@ -4,8 +4,9 @@ import img from "../assets/shuez_bg.jpg";
 import { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { API_URL } from "../config";
 
-const BASE_URL = "http://localhost:8800";
+const BASE_URL = API_URL;
 
 const Container = styled.div`
   width: 100vw;
@@ -74,7 +75,7 @@ const Login = () => {
     password: "",
   };
   const [ formData, setFormData ] = useState(initialState);
-  const [ cookies, setCookie ] = useCookies([ "access_token" ]);
+  const [ , setCookie ] = useCookies([ "access_token" ]);
 
   const handleChange = e => {
     const { name, value } = e.target;

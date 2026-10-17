@@ -7,7 +7,8 @@ import { useParams } from "react-router-dom";
 import WestIcon from "@mui/icons-material/West";
 import { Link } from "react-router-dom";
 import { mobile } from "../responsive";
-const PRODUCT_URL = "http://localhost:8800/products/id/";
+import { API_URL } from "../config";
+const PRODUCT_URL = `${API_URL}/products/id/`;
 
 const ProductCard = styled.div`
   padding: 50px;
@@ -154,7 +155,10 @@ const SingleProduct = () => {
             <Title>{product.name}</Title>
             <Price>${product.price}</Price>
             <SubTitle>Size</SubTitle>
-            <Select onChange={e => setSize(e.target.value)}>
+            <Select
+              data-testid="size-select"
+              onChange={e => setSize(e.target.value)}
+            >
               {product.size.split(",").map((s, i) => (
                 <option key={i} value={s}>
                   {s}
@@ -165,7 +169,10 @@ const SingleProduct = () => {
             <Description>{product.description}</Description>
             <SubTitle>Quantity</SubTitle>
             <SelectContainer>
-              <Select onChange={e => setQuantity(+e.target.value)}>
+              <Select
+                data-testid="quantity-select"
+                onChange={e => setQuantity(+e.target.value)}
+              >
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>

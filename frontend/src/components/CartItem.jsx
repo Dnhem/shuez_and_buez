@@ -85,11 +85,11 @@ const StyledLink = styled(Link)`
   width: 200px;
 `;
 
-const CartItem = ({ id, title, img, price, size, qty, remove, type }) => {
+const CartItem = ({ id, cartId, title, img, price, size, qty, remove, type }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    remove(id);
+    remove(cartId);
   };
 
   return (
@@ -104,17 +104,21 @@ const CartItem = ({ id, title, img, price, size, qty, remove, type }) => {
           <QtyContainer>
             <Span>Quantity:</Span>
             <IconContainer>
-              <IncrementButton onClick={() => dispatch(increment({ id }))}>
+              <IncrementButton
+                data-testid="increment"
+                onClick={() => dispatch(increment({ cartId }))}
+              >
                 <ExpandLessIcon />
               </IncrementButton>
-              <Qty>{qty}</Qty>
+              <Qty data-testid="quantity">{qty}</Qty>
               <DecrementButton
+                data-testid="decrement"
                 onClick={() => {
                   if (qty === 1) {
-                    dispatch(removeItem(id));
+                    dispatch(removeItem(cartId));
                     return;
                   }
-                  dispatch(decrement({ id }));
+                  dispatch(decrement({ cartId }));
                 }}
               >
                 <ExpandMoreIcon />
@@ -123,7 +127,7 @@ const CartItem = ({ id, title, img, price, size, qty, remove, type }) => {
           </QtyContainer>
         </ProductDetails>
         <Price>${price}</Price>
-        <DeleteIcon onClick={handleClick}>
+        <DeleteIcon data-testid="remove" onClick={handleClick}>
           <DeleteForeverOutlinedIcon color="warning" />
         </DeleteIcon>
       </Wrapper>
